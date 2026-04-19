@@ -6,3 +6,5 @@ You can save notes and decide how long they should live:
 - Forever
 
 After expiry, notes automatically disappear.
+
+# Download the APK from the Releases section.
