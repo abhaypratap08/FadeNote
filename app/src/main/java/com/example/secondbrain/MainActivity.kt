@@ -30,7 +30,13 @@ class MainActivity : ComponentActivity() {
             applicationContext,
             AppDatabase::class.java,
             "thought_db"
-        ).fallbackToDestructiveMigration(true).build()
+        )Room.databaseBuilder(
+            applicationContext,
+            AppDatabase::class.java,
+                "thought_db"
+        )
+        .addMigrations(MIGRATION_1_2)
+        .build().build()
 
         setContent {
             com.example.secondbrain.ui.theme.SecondBrainTheme {
@@ -57,11 +63,20 @@ fun calculateExpiry(option: String): Long {
 
 @Composable
 fun ThoughtEntryScreen(db: AppDatabase) {
+    LaunchedEffect(Unit) {
+        scope.launch(Dispatchers.IO) {
+            db.thoughtDao().deleteExpired(System.currentTimeMillis())
+        }
+    }
+
     var text by remember { mutableStateOf("") }
     var selectedOption by remember { mutableStateOf("24h") }
 
-    val thoughts by db.thoughtDao().getAllThoughts().collectAsState(initial = emptyList())
     val scope = rememberCoroutineScope()
+
+    val thoughts by db.thoughtDao()
+    .getActiveThoughts(System.currentTimeMillis())
+    .collectAsState(initial = emptyList())
 
     Column(
         modifier = Modifier
