@@ -8,7 +8,7 @@ import kotlinx.coroutines.launch
 
 class ThoughtViewModel(private val dao: ThoughtDao) : ViewModel() {
 
-    val thoughts = dao.getAllThoughts()
+    val thoughts = dao.getActiveThoughts(System.currentTimeMillis())
         .stateIn(
             viewModelScope,
             SharingStarted.WhileSubscribed(5000),

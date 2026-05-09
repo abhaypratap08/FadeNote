@@ -1,5 +1,3 @@
-import java.util.Properties
-
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -23,13 +21,6 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-
-        val properties = Properties()
-        val propertiesFile = rootProject.file("local.properties")
-        if (propertiesFile.exists()) {
-            properties.load(propertiesFile.inputStream())
-        }
-        buildConfigField("String", "GEMINI_API_KEY", "\"${properties.getProperty("GEMINI_API_KEY") ?: ""}\"")
     }
 
     buildTypes {
@@ -50,7 +41,6 @@ android {
     }
     buildFeatures {
         compose = true
-        buildConfig = true
     }
 }
 
@@ -73,6 +63,5 @@ dependencies {
     implementation("androidx.room:room-runtime:2.8.4")
     implementation("androidx.room:room-ktx:2.8.4")
     kapt("androidx.room:room-compiler:2.8.4")
-    implementation("com.google.ai.client.generativeai:generativeai:0.9.0")
     implementation("androidx.compose.material:material-icons-extended")
 }
