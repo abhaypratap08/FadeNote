@@ -45,7 +45,6 @@ jobs:
         id: apk
         run: |
           APK=$(find app/build/outputs/apk/release -name "*.apk" | head -n 1)
-          echo "path=$APK" >> $GITHUB_OUTPUT
           FRIENDLY="FadeNote-${{ github.ref_name }}.apk"
           cp "$APK" "$FRIENDLY"
           echo "friendly=$FRIENDLY" >> $GITHUB_OUTPUT
@@ -62,7 +61,6 @@ jobs:
             LOG=$(git log --pretty=format:"- %s" --no-merges)
           fi
           echo "$LOG" > CHANGELOG.md
-          echo "prev_tag=$PREV_TAG" >> $GITHUB_OUTPUT
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
