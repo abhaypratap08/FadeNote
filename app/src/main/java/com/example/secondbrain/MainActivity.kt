@@ -30,13 +30,9 @@ class MainActivity : ComponentActivity() {
             applicationContext,
             AppDatabase::class.java,
             "thought_db"
-        )Room.databaseBuilder(
-            applicationContext,
-            AppDatabase::class.java,
-                "thought_db"
         )
         .addMigrations(MIGRATION_1_2)
-        .build().build()
+        .build()
 
         setContent {
             com.example.secondbrain.ui.theme.SecondBrainTheme {
